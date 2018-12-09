@@ -5,7 +5,12 @@ channels:
 dependencies:
   - ca-certificates=2018.11.29=ha4d7672_0
   - certifi=2018.11.29=py37_1000
+  - click=7.0=py_0
+  - flask=1.0.2=py_2
+  - itsdangerous=1.1.0=py_0
+  - jinja2=2.10=py_1
   - libffi=3.2.1=hfc679d8_5
+  - markupsafe=1.1.0=py37h470a237_0
   - ncurses=6.1=hfc679d8_1
   - openssl=1.0.2p=h470a237_1
   - pip=18.1=py37_1000
@@ -14,6 +19,7 @@ dependencies:
   - setuptools=40.6.2=py37_0
   - sqlite=3.26.0=hb1c47c0_0
   - tk=8.6.9=ha92aebf_0
+  - werkzeug=0.14.1=py_0
   - wheel=0.32.3=py37_0
   - xz=5.2.4=h470a237_1
   - zlib=1.2.11=h470a237_3
@@ -29,14 +35,13 @@ dependencies:
     - ipython-genutils==0.2.0
     - ipywidgets==7.4.2
     - jedi==0.13.1
-    - jinja2==2.10
     - jsonschema==2.6.0
     - jupyter==1.0.0
     - jupyter-client==5.2.3
     - jupyter-console==6.0.0
     - jupyter-core==4.4.0
-    - markupsafe==1.1.0
     - mistune==0.8.4
+    - mysql-connector-python==8.0.13
     - nbconvert==5.4.0
     - nbformat==4.4.0
     - notebook==5.7.2
@@ -46,6 +51,7 @@ dependencies:
     - pickleshare==0.7.5
     - prometheus-client==0.5.0
     - prompt-toolkit==2.0.7
+    - protobuf==3.6.1
     - ptyprocess==0.6.0
     - pygments==2.3.0
     - python-dateutil==2.7.5
@@ -53,6 +59,7 @@ dependencies:
     - qtconsole==4.4.3
     - send2trash==1.5.0
     - six==1.11.0
+    - sqlparse==0.2.4
     - terminado==0.8.1
     - testpath==0.4.2
     - tornado==5.1.1
