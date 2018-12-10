@@ -10,8 +10,9 @@ Data schema:
 {
    "Date" : ,
    "Required" : [True | False],
-   "Course" : , 
-   "Class" : "String",
+   "Department": "String",
+   "CourseNum" : department, 
+   "Class" : string,
    "Score" : number
    "Lecturer" : "String",
    "Grade" : ,
@@ -32,8 +33,10 @@ General Process For Review Processing:
     
 """
 
+import nltk
 import sqlite3
-import nltk.tokenize as MWETokenizer
+from nltk.probability import FreqDist
+from nltk.tokenize import word_tokenize 
 from nltk.stem.lancaster import LancasterStemmer
 
 db_key = {
@@ -71,6 +74,7 @@ def cleanData(data, key_schema):
    
 
 def changeKeys(data, key_schema):
+   """ Swaps keys given a dictionary of the form 'old_key' : "new_key" """
 
    for record in data:
       for key in key_schema:
@@ -78,28 +82,55 @@ def changeKeys(data, key_schema):
 
    return data
 
-def cleanReview(review):
-   """
-      
-   """
 
-   sent_tknzr = TweetTokenizer()
+def cleanReview(review):
+   """ Converts review into a list of lists of stemmed words """   
+
+   #sent_tknzr = RegexTokenizer()
    stemmer = LancasterStemmer()
 
    return [[list(map(lambda w: stemmer.stem(w), tkn_sent))
-               for tkn_sent in sent_tknzr.tokenize(sent)]
-            for sent in rec_tknzr.totenize(review)]
-           
+               for tkn_sent in nltk.word_tokenize(sent)]
+            for sent in review.split('.')]
 
-def tokenizeRecord(record):
-   """ "String" --> [["String",...],...] """
-   return [tokenizeSentence(sent) for sent in splitSentences(record)]
+#####################################################################
+# Processing and filtering of data #
+#####################################################################
 
+def flattenReviews(data):
+   """ Takes all the words in the reviews of a list of data points
+         and puts them all in a list. 
+       [{dataDict}, ...] --> ["string", ...] """
+   return [word for review in data for word in review['Review']]
 
-def tokenizeSentence(sentence, tokenizer):
-   """ "String" --> ["String", ...] """
-   sentence = tokenizer.tokenize(sentence)
-   return[stemmer.stem(word) for word in sentence]
+def flattenReview(review):
+   """ Takes all of the words in a review and puts them in a list 
+       [["string", ...], ...] --> ["string", ...] """
+   return [word for sent in review for word in sent]
 
-      
+def filterLecturer(data, lecturer):
+   """ Returns list of data dicts of a certain lecturer """
+   return list(filter(lambda r: r['Lecturer'] == lecturer, data))
 
+def filterOutLecturer(data, lecturer):
+   """ Returns data entries not for a certain lecturer """
+   return list(filter(lambda r: r['Lecturer'] != lecturer, data))
+
+def filterDepartment(data, department):
+   """ Returns data entries about a particular department """
+   return list(filter(lambda r: r['Department'] == department, data))
+
+def filterOutDepartment(data, department):
+   """ Returns data entries about a particular department """
+   return list(filter(lambda r: r['Department'] != department, data))
+
+def filterRating(data, rating):
+   " Returns data entries with a particular rating """
+   return list(filter(
+            lambda r: r['Rating'] >= rating && r['Rating'] < rating+1, 
+            data))
+
+def filterOutRating(data, rating):
+   return list(filter(
+            lambda r: not(r['Rating'] >= rating && r['Rating'] < rating+1),
+            data))
